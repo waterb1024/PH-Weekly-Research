@@ -39,7 +39,7 @@ function LoginForm() {
       className="w-full max-w-sm bg-white border border-neutral-200 rounded-2xl p-8 shadow-sm"
     >
       <div className="mb-6">
-        <div className="text-2xl font-semibold text-neutral-900">📝 Notepad</div>
+        <div className="text-2xl font-semibold text-neutral-900">🔬 PH Weekly Research</div>
         <div className="text-sm text-neutral-500 mt-1">비밀번호를 입력하세요</div>
       </div>
       <input

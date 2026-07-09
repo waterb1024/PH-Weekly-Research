@@ -28,6 +28,15 @@ async function main() {
     )`,
     `CREATE INDEX IF NOT EXISTS idx_notes_notebook ON notes(notebook_id, updated_at DESC)`,
     `CREATE INDEX IF NOT EXISTS idx_notes_updated ON notes(updated_at DESC)`,
+    `CREATE TABLE IF NOT EXISTS weekly_reports (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      report_date TEXT NOT NULL,
+      data TEXT NOT NULL,
+      created_at INTEGER NOT NULL DEFAULT (unixepoch()),
+      updated_at INTEGER NOT NULL DEFAULT (unixepoch())
+    )`,
+    `CREATE INDEX IF NOT EXISTS idx_weekly_reports_date ON weekly_reports(report_date DESC)`,
+    `CREATE INDEX IF NOT EXISTS idx_weekly_reports_created ON weekly_reports(created_at DESC)`,
   ];
 
   for (const sql of statements) {

@@ -19,5 +19,7 @@ services:
         sync: false
       - key: APP_PASSWORD
         sync: false
+      - key: INGEST_API_KEY
+        sync: false
       - key: SESSION_SECRET
         generateValue: true
