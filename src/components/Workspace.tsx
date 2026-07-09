@@ -92,19 +92,23 @@ export default function Workspace() {
     [activeNotebookId, refreshNotebooks, refreshNotes],
   );
 
-  const handleCreateNote = useCallback(async () => {
-    const body: { notebook_id?: number } = {};
-    if (activeNotebookId !== "all") body.notebook_id = activeNotebookId;
-    const res = await fetch("/api/notes", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body),
-    });
-    const note = (await res.json()) as Note;
-    await refreshNotes();
-    await refreshNotebooks();
-    setActiveNoteId(note.id);
-  }, [activeNotebookId, refreshNotes, refreshNotebooks]);
+  const handleCreateNote = useCallback(
+    async (templateId?: string) => {
+      const body: { notebook_id?: number; template?: string } = {};
+      if (activeNotebookId !== "all") body.notebook_id = activeNotebookId;
+      if (templateId) body.template = templateId;
+      const res = await fetch("/api/notes", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+      const note = (await res.json()) as Note;
+      await refreshNotes();
+      await refreshNotebooks();
+      setActiveNoteId(note.id);
+    },
+    [activeNotebookId, refreshNotes, refreshNotebooks],
+  );
 
   const handleDeleteNote = useCallback(
     async (id: number) => {

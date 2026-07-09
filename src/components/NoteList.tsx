@@ -1,6 +1,7 @@
 "use client";
 
 import type { NoteSummary } from "@/lib/types";
+import { NOTE_TEMPLATES } from "@/lib/templates";
 
 type Props = {
   notes: NoteSummary[];
@@ -9,7 +10,7 @@ type Props = {
   onQueryChange: (q: string) => void;
   activeId: number | null;
   onSelect: (id: number) => void;
-  onCreate: () => void;
+  onCreate: (templateId?: string) => void;
   onDelete: (id: number) => void;
 };
 
@@ -46,14 +47,26 @@ export default function NoteList({
   return (
     <section className="w-80 shrink-0 border-r border-neutral-200 bg-white flex flex-col">
       <div className="px-4 pt-4 pb-3 border-b border-neutral-100">
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between gap-2">
           <h2 className="font-semibold text-neutral-800 truncate">{title}</h2>
-          <button
-            onClick={onCreate}
-            className="bg-emerald-600 text-white text-xs font-medium px-2.5 py-1 rounded-md hover:bg-emerald-700 transition"
-          >
-            + 새 노트
-          </button>
+          <div className="flex items-center gap-1.5 shrink-0">
+            {NOTE_TEMPLATES.map((tpl) => (
+              <button
+                key={tpl.id}
+                onClick={() => onCreate(tpl.id)}
+                title={`템플릿에서 새 노트: ${tpl.label}`}
+                className="border border-emerald-600 text-emerald-700 text-xs font-medium px-2.5 py-1 rounded-md hover:bg-emerald-50 transition"
+              >
+                + {tpl.label}
+              </button>
+            ))}
+            <button
+              onClick={() => onCreate()}
+              className="bg-emerald-600 text-white text-xs font-medium px-2.5 py-1 rounded-md hover:bg-emerald-700 transition"
+            >
+              + 새 노트
+            </button>
+          </div>
         </div>
         <input
           value={query}

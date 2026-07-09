@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
+import { findTemplate, htmlToPlain } from "@/lib/templates";
 
 export async function GET(req: Request) {
   const url = new URL(req.url);
@@ -33,7 +34,10 @@ export async function GET(req: Request) {
 }
 
 export async function POST(req: Request) {
-  const body = (await req.json().catch(() => ({}))) as { notebook_id?: number };
+  const body = (await req.json().catch(() => ({}))) as {
+    notebook_id?: number;
+    template?: string;
+  };
   let notebookId = body.notebook_id;
   if (!notebookId) {
     const nb = await db.execute(
@@ -48,11 +52,17 @@ export async function POST(req: Request) {
       notebookId = Number(created.rows[0].id);
     }
   }
+
+  const template = body.template ? findTemplate(body.template) : undefined;
+  const title = template ? template.buildTitle(new Date()) : "";
+  const content = template ? template.content : "";
+  const plainText = template ? htmlToPlain(template.content) : "";
+
   const result = await db.execute({
     sql: `INSERT INTO notes (notebook_id, title, content, plain_text)
-          VALUES (?, '', '', '')
+          VALUES (?, ?, ?, ?)
           RETURNING id, notebook_id, title, content, plain_text, pinned, archived, created_at, updated_at`,
-    args: [notebookId],
+    args: [notebookId, title, content, plainText],
   });
   return NextResponse.json(result.rows[0]);
 }
