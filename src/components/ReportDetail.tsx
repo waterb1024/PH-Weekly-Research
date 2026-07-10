@@ -311,21 +311,25 @@ export default function ReportDetail({ id }: Props) {
               <p className="mt-4 text-base text-neutral-700 leading-relaxed max-w-3xl">
                 {data.fastestValidation.rationale}
               </p>
-              <div className="mt-6 flex items-center gap-8 flex-wrap text-sm">
+              <div className="mt-6 flex items-center gap-5 md:gap-8 flex-wrap text-sm">
                 <div className="flex items-center gap-2">
                   <span className="text-xs text-neutral-500">난이도</span>
-                  <ScoreDots value={fastest.difficultyStars} max={5} />
+                  <span className="hidden md:inline-flex">
+                    <ScoreDots value={fastest.difficultyStars} max={5} />
+                  </span>
                   <span className="text-xs font-semibold text-neutral-800 tabular-nums">
                     {fastest.difficultyStars}/5
                   </span>
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="text-xs text-neutral-500">기회</span>
-                  <ScoreDots
-                    value={Math.round(fastest.opportunityScore / 2)}
-                    max={5}
-                    tone="accent"
-                  />
+                  <span className="hidden md:inline-flex">
+                    <ScoreDots
+                      value={Math.round(fastest.opportunityScore / 2)}
+                      max={5}
+                      tone="accent"
+                    />
+                  </span>
                   <span
                     className="text-xs font-semibold tabular-nums"
                     style={{ color: ACCENT }}
@@ -557,9 +561,9 @@ export default function ReportDetail({ id }: Props) {
             </div>
           ) : (
             <div className="space-y-4">
-              <div className="card">
+              <div className="card hidden md:block">
                 <ResponsiveContainer width="100%" height={280}>
-                  <ScatterChart margin={{ top: 24, right: 60, left: 60, bottom: 40 }}>
+                  <ScatterChart margin={{ top: 24, right: 40, left: 40, bottom: 40 }}>
                     <ReferenceArea
                       x1={0.5}
                       x2={3}
@@ -669,33 +673,41 @@ export default function ReportDetail({ id }: Props) {
                         className="card card-hover"
                         style={isTop ? { background: ACCENT_SOFT } : undefined}
                       >
-                        <div className="flex items-center justify-between gap-3 flex-wrap">
+                        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 md:gap-4">
                           <div className="flex items-center gap-3">
                             <span
-                              className="inline-flex items-center justify-center w-9 h-9 rounded-full text-white text-sm font-bold tabular-nums"
+                              className="inline-flex items-center justify-center w-9 h-9 rounded-full text-white text-sm font-bold tabular-nums shrink-0"
                               style={{ background: isTop ? ACCENT : INK }}
                             >
                               {o.rank}
                             </span>
-                            <span className="text-lg font-bold text-neutral-900 headline-tight">
+                            <span className="text-base md:text-lg font-bold text-neutral-900 headline-tight leading-snug">
                               {o.title}
                             </span>
                           </div>
-                          <div className="flex items-center gap-5 text-xs">
+                          <div className="flex items-center gap-4 md:gap-5 text-xs shrink-0">
                             <div className="flex items-center gap-2">
                               <span className="text-neutral-500">난이도</span>
-                              <ScoreDots value={o.difficultyStars} max={5} tone="ink" />
+                              <span className="hidden md:inline-flex">
+                                <ScoreDots
+                                  value={o.difficultyStars}
+                                  max={5}
+                                  tone="ink"
+                                />
+                              </span>
                               <span className="font-semibold text-neutral-800 tabular-nums">
                                 {o.difficultyStars}/5
                               </span>
                             </div>
                             <div className="flex items-center gap-2">
                               <span className="text-neutral-500">기회</span>
-                              <ScoreDots
-                                value={Math.round(o.opportunityScore / 2)}
-                                max={5}
-                                tone="accent"
-                              />
+                              <span className="hidden md:inline-flex">
+                                <ScoreDots
+                                  value={Math.round(o.opportunityScore / 2)}
+                                  max={5}
+                                  tone="accent"
+                                />
+                              </span>
                               <span
                                 className="font-semibold tabular-nums"
                                 style={{ color: ACCENT }}
