@@ -231,12 +231,12 @@ export default function ReportDetail({ id }: Props) {
         <div className="max-w-6xl mx-auto px-4 md:px-8 py-4 flex items-center justify-between">
           <Link
             href="/"
-            className="inline-flex items-center gap-1.5 text-neutral-500 hover:text-neutral-900 transition-colors"
+            className="inline-flex items-center justify-center w-8 h-8 -ml-1 rounded-lg text-neutral-500 hover:text-neutral-900 hover:bg-black/[0.04] transition-colors"
             aria-label="대시보드로 돌아가기"
           >
             <svg
-              width="18"
-              height="18"
+              width="20"
+              height="20"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -247,9 +247,7 @@ export default function ReportDetail({ id }: Props) {
             >
               <path d="M15 18l-6-6 6-6" />
             </svg>
-            <span className="text-xs font-medium">대시보드</span>
           </Link>
-          <div className="text-xs text-neutral-500 tabular-nums">{report.report_date}</div>
           <div className="relative" ref={menuRef}>
             <button
               onClick={() => setMenuOpen((v) => !v)}
