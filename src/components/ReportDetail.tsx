@@ -228,7 +228,7 @@ export default function ReportDetail({ id }: Props) {
   return (
     <main className="min-h-[100dvh]">
       <header className="bg-[color:var(--bg)]/80 backdrop-blur-md sticky top-0 z-10">
-        <div className="max-w-6xl mx-auto px-4 md:px-8 py-4 flex items-center justify-between">
+        <div className="max-w-6xl mx-auto px-5 md:px-8 py-4 flex items-center justify-between">
           <Link
             href="/"
             className="inline-flex items-center justify-center w-8 h-8 -ml-1 rounded-lg text-neutral-500 hover:text-neutral-900 hover:bg-black/[0.04] transition-colors"
@@ -307,7 +307,7 @@ export default function ReportDetail({ id }: Props) {
         </div>
       )}
 
-      <article className="max-w-6xl mx-auto px-4 md:px-8 py-10 section-stack">
+      <article className="max-w-6xl mx-auto px-5 md:px-8 py-10 section-stack">
         <div>
           <div className="eyebrow tabular-nums" style={{ color: ACCENT }}>
             주간 리포트 · {report.report_date}
@@ -1145,13 +1145,13 @@ function ReportDetailSkeleton() {
   return (
     <main className="min-h-[100dvh]">
       <header className="bg-[color:var(--bg)]/80 sticky top-0 z-10">
-        <div className="max-w-6xl mx-auto px-4 md:px-8 py-4 flex items-center justify-between">
+        <div className="max-w-6xl mx-auto px-5 md:px-8 py-4 flex items-center justify-between">
           <div className="h-3 w-16 bg-black/[0.06] rounded animate-pulse" />
           <div className="h-3 w-24 bg-black/[0.06] rounded animate-pulse" />
           <div className="h-3 w-8 bg-black/[0.06] rounded animate-pulse" />
         </div>
       </header>
-      <div className="max-w-6xl mx-auto px-4 md:px-8 py-10 section-stack">
+      <div className="max-w-6xl mx-auto px-5 md:px-8 py-10 section-stack">
         <div>
           <div className="h-3 w-40 bg-black/[0.06] rounded animate-pulse" />
           <div className="h-8 w-96 max-w-full bg-black/[0.08] rounded animate-pulse mt-3" />
