@@ -561,9 +561,9 @@ export default function ReportDetail({ id }: Props) {
             </div>
           ) : (
             <div className="space-y-4">
-              <div className="card hidden md:block">
-                <ResponsiveContainer width="100%" height={280}>
-                  <ScatterChart margin={{ top: 24, right: 40, left: 40, bottom: 40 }}>
+              <div className="card">
+                <ResponsiveContainer width="100%" height={260}>
+                  <ScatterChart margin={{ top: 24, right: 20, left: 20, bottom: 44 }}>
                     <ReferenceArea
                       x1={0.5}
                       x2={3}
@@ -584,9 +584,9 @@ export default function ReportDetail({ id }: Props) {
                       tick={{ fontSize: 13, fill: INK }}
                       stroke={LINE}
                       label={{
-                        value: "쉬움 ← 난이도 → 어려움",
+                        value: "난이도 →",
                         position: "insideBottom",
-                        offset: -20,
+                        offset: -24,
                         fontSize: 12,
                         fill: MUTED,
                       }}
@@ -600,10 +600,10 @@ export default function ReportDetail({ id }: Props) {
                       tick={{ fontSize: 13, fill: INK }}
                       stroke={LINE}
                       label={{
-                        value: "낮음 ← 기회 → 높음",
+                        value: "기회 ↑",
                         angle: -90,
                         position: "insideLeft",
-                        offset: 10,
+                        offset: 14,
                         fontSize: 12,
                         fill: MUTED,
                       }}
@@ -653,11 +653,11 @@ export default function ReportDetail({ id }: Props) {
                     </Scatter>
                   </ScatterChart>
                 </ResponsiveContainer>
-                <div className="grid grid-cols-2 gap-2 mt-3 text-xs text-neutral-500">
-                  <div>◀ 좌상단: 스위트 스팟 (쉽고 기회 큼)</div>
-                  <div className="text-right">우상단: 도전 (어렵고 기회 큼) ▶</div>
-                  <div>◀ 좌하단: 안전 (쉽고 기회 작음)</div>
-                  <div className="text-right">우하단: 피할 것 (어렵고 기회 작음) ▶</div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 sm:gap-2 mt-4 text-xs text-neutral-500">
+                  <div>· 스위트 스팟 — 쉽고 기회 큼</div>
+                  <div className="sm:text-right">· 도전 — 어렵고 기회 큼</div>
+                  <div>· 안전 — 쉽고 기회 작음</div>
+                  <div className="sm:text-right">· 피할 것 — 어렵고 기회 작음</div>
                 </div>
               </div>
 
