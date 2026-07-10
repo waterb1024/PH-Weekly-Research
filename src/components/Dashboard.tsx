@@ -420,28 +420,32 @@ function Section({
   );
 }
 
-// Base Gallery palette (600 shades for readable colored text on soft tint bg)
+// Base Gallery palette
 const THEME_PALETTE = [
-  "#0E8345", // Green
-  "#266EF1", // Blue
-  "#944DE7", // Purple
-  "#CA26A5", // Magenta
-  "#C54600", // Orange
-  "#007F8C", // Teal
-  "#4F7F06", // Lime
-  "#A95F03", // Amber
-  "#B97502", // Yellow
-  "#DE1135", // Red
+  "#0E8345", // Green 600
+  "#266EF1", // Blue 600
+  "#944DE7", // Purple 600
+  "#CA26A5", // Magenta 600
+  "#C54600", // Orange 600
+  "#007F8C", // Teal 600
+  "#4F7F06", // Lime 600
+  "#A95F03", // Amber 600
+  "#B97502", // Yellow 500
+  "#DE1135", // Red 600
 ];
 
-function hexToRgb(hex: string): [number, number, number] {
-  const h = hex.replace("#", "");
-  return [
-    parseInt(h.slice(0, 2), 16),
-    parseInt(h.slice(2, 4), 16),
-    parseInt(h.slice(4, 6), 16),
-  ];
-}
+const THEME_PALETTE_50 = [
+  "#EAF6ED", // Green 50
+  "#EFF4FE", // Blue 50
+  "#F9F1FF", // Purple 50
+  "#FEEFF9", // Magenta 50
+  "#FFF0E9", // Orange 50
+  "#E2F8FB", // Teal 50
+  "#EEF6E3", // Lime 50
+  "#FFF1E1", // Amber 50
+  "#FDF2DC", // Yellow 50
+  "#FFF0EE", // Red 50
+];
 
 function ChipCloud({ data }: { data: Array<{ label: string; count: number }> }) {
   const max = Math.max(...data.map((d) => d.count), 1);
@@ -450,9 +454,9 @@ function ChipCloud({ data }: { data: Array<{ label: string; count: number }> }) 
       {data.map((d, i) => {
         const weight = d.count / max;
         const fontSize = 14 + weight * 6;
-        const alpha = 0.1 + weight * 0.16;
-        const color = THEME_PALETTE[i % THEME_PALETTE.length];
-        const [r, g, b] = hexToRgb(color);
+        const idx = i % THEME_PALETTE.length;
+        const color = THEME_PALETTE[idx];
+        const bg = THEME_PALETTE_50[idx];
         return (
           <span
             key={d.label}
@@ -460,8 +464,8 @@ function ChipCloud({ data }: { data: Array<{ label: string; count: number }> }) 
             style={{
               fontSize: `${fontSize}px`,
               lineHeight: 1.2,
-              background: `rgba(${r}, ${g}, ${b}, ${alpha})`,
-              color: color,
+              background: bg,
+              color,
               fontWeight: weight > 0.6 ? 700 : 600,
             }}
           >
@@ -469,7 +473,8 @@ function ChipCloud({ data }: { data: Array<{ label: string; count: number }> }) 
             <span
               className="tabular-nums"
               style={{
-                color: `rgba(${r}, ${g}, ${b}, 0.7)`,
+                color,
+                opacity: 0.65,
                 fontSize: "12px",
                 fontWeight: 500,
               }}
