@@ -433,14 +433,25 @@ const THEME_PALETTE = [
   "#be123c",
 ];
 
+function hexToRgb(hex: string): [number, number, number] {
+  const h = hex.replace("#", "");
+  return [
+    parseInt(h.slice(0, 2), 16),
+    parseInt(h.slice(2, 4), 16),
+    parseInt(h.slice(4, 6), 16),
+  ];
+}
+
 function ChipCloud({ data }: { data: Array<{ label: string; count: number }> }) {
   const max = Math.max(...data.map((d) => d.count), 1);
   return (
     <div className="flex flex-wrap gap-2">
-      {data.map((d) => {
+      {data.map((d, i) => {
         const weight = d.count / max;
         const fontSize = 14 + weight * 6;
-        const alpha = 0.08 + weight * 0.14;
+        const alpha = 0.1 + weight * 0.16;
+        const color = THEME_PALETTE[i % THEME_PALETTE.length];
+        const [r, g, b] = hexToRgb(color);
         return (
           <span
             key={d.label}
@@ -448,15 +459,19 @@ function ChipCloud({ data }: { data: Array<{ label: string; count: number }> }) 
             style={{
               fontSize: `${fontSize}px`,
               lineHeight: 1.2,
-              background: `rgba(5, 150, 105, ${alpha})`,
-              color: weight > 0.6 ? "#065f46" : "#0f0f0f",
-              fontWeight: weight > 0.6 ? 600 : 500,
+              background: `rgba(${r}, ${g}, ${b}, ${alpha})`,
+              color: color,
+              fontWeight: weight > 0.6 ? 700 : 600,
             }}
           >
             {d.label}
             <span
               className="tabular-nums"
-              style={{ color: "rgba(0,0,0,0.4)", fontSize: "12px" }}
+              style={{
+                color: `rgba(${r}, ${g}, ${b}, 0.7)`,
+                fontSize: "12px",
+                fontWeight: 500,
+              }}
             >
               {d.count}
             </span>
