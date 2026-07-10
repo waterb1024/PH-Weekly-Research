@@ -64,7 +64,21 @@
 - 스크래핑 관련 3개 route helper (JSON-LD 파서, Wayback unwrapper, slug candidate 생성기) 신설.
 - 정렬 chip 시각적 비중 낮춤 — 배지형 채움 → 텍스트 링크 스타일.
 
-## 파일 변경
+## 7. Prism 브랜딩 + PWA (후속)
 
-- 신규: `src/app/api/service-icon/route.ts`, `CHANGES.md`
-- 수정: `src/app/globals.css`, `src/components/Dashboard.tsx`, `src/components/ReportDetail.tsx`, `src/components/ServiceIcon.tsx`
+- **로그인 기능 제거** — `src/app/login/`, `src/app/api/login/`, `src/app/api/logout/`, `src/lib/auth-core.ts`, `src/lib/auth.ts`, `src/middleware.ts` 전량 삭제. 인그레스는 `/api/reports/ingest` 의 Bearer 토큰 검증만 유지(원격 에이전트 방어용).
+- **서비스 명 → `Prism`** — 매주 PH 상위 서비스에서 시그널을 스펙트럼처럼 분해한다는 콘셉트.
+- **로고 컴포넌트 (`Logo.tsx`)** — 우측 향 삼각형(프리즘 단면) + 3개 굴절 스펙트럼 라인 + 산세리프 `Prism` 워드마크. Dashboard/Detail 헤더 상단에 배치.
+- **파비콘 + 앱 아이콘 (SVG)**
+  - `public/icon.svg` — 라이트 배경 favicon
+  - `public/apple-icon.svg` — 180×180, 다크 앵두트 배경 + 라운드 코너 (iOS 홈스크린)
+  - `public/icon-512.svg` — 512×512 PWA any
+  - `public/icon-maskable.svg` — 512×512 PWA maskable (Android adaptive)
+- **PWA manifest (`public/manifest.webmanifest`)** — `name/short_name: Prism`, `display: standalone`, `background_color: #faf9f6`, `theme_color: #0a0a0a`, 4개 아이콘 등록. Chrome 안드로이드에서 "홈 화면에 추가" → 독립 앱처럼 실행.
+- **layout.tsx 메타데이터** — Next Metadata API로 title/description/icons/manifest/appleWebApp/viewport 통합 설정.
+
+## 파일 변경 (누적)
+
+- 신규: `src/app/api/service-icon/route.ts`, `src/components/Logo.tsx`, `public/icon.svg`, `public/apple-icon.svg`, `public/icon-512.svg`, `public/icon-maskable.svg`, `public/manifest.webmanifest`, `CHANGES.md`
+- 수정: `src/app/globals.css`, `src/app/layout.tsx`, `src/components/Dashboard.tsx`, `src/components/ReportDetail.tsx`, `src/components/ServiceIcon.tsx`
+- 삭제: `src/app/login/`, `src/app/api/login/`, `src/app/api/logout/`, `src/lib/auth-core.ts`, `src/lib/auth.ts`, `src/middleware.ts`

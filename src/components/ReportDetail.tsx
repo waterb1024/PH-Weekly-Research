@@ -19,6 +19,7 @@ import {
 } from "recharts";
 import type { MarketSegment, ThemeService, WeeklyReport } from "@/lib/types";
 import ServiceIcon from "./ServiceIcon";
+import Logo from "./Logo";
 
 type Props = { id: number };
 
@@ -197,9 +198,10 @@ export default function ReportDetail({ id }: Props) {
         <div className="max-w-6xl mx-auto px-8 py-4 flex items-center justify-between">
           <Link
             href="/"
-            className="text-xs font-medium text-neutral-500 hover:text-neutral-900 transition-colors"
+            className="flex items-center gap-3 text-neutral-900 hover:opacity-70 transition-opacity"
           >
-            ← 대시보드
+            <span className="text-xs font-medium text-neutral-500">←</span>
+            <Logo size={20} />
           </Link>
           <div className="text-xs text-neutral-500 tabular-nums">{report.report_date}</div>
           <div className="relative" ref={menuRef}>

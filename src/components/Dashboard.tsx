@@ -12,6 +12,7 @@ import {
   YAxis,
 } from "recharts";
 import type { WeeklyReportSummary } from "@/lib/types";
+import Logo from "./Logo";
 
 const ACCENT = "#059669";
 const INK = "#0f0f0f";
@@ -104,11 +105,6 @@ export default function Dashboard() {
     };
   }, [reports]);
 
-  const handleLogout = useCallback(async () => {
-    await fetch("/api/logout", { method: "POST" });
-    window.location.href = "/login";
-  }, []);
-
   if (loading || !reports || !aggregate) {
     return <DashboardSkeleton />;
   }
@@ -118,21 +114,13 @@ export default function Dashboard() {
   return (
     <main className="min-h-[100dvh]">
       <header className="border-b border-black/[0.06] bg-[color:var(--bg)]/80 backdrop-blur-md sticky top-0 z-10">
-        <div className="max-w-6xl mx-auto px-8 py-6 flex items-end justify-between gap-4">
-          <div>
-            <div className="eyebrow" style={{ color: ACCENT }}>
-              PH WEEKLY RESEARCH
-            </div>
-            <h1 className="text-2xl font-bold text-neutral-900 headline-tight mt-1.5">
-              주간 Product Hunt 분석
-            </h1>
+        <div className="max-w-6xl mx-auto px-8 py-5 flex items-center justify-between gap-4">
+          <div className="text-neutral-900">
+            <Logo size={22} />
           </div>
-          <button
-            onClick={handleLogout}
-            className="text-xs font-medium text-neutral-500 hover:text-neutral-900 transition-colors"
-          >
-            로그아웃
-          </button>
+          <span className="eyebrow" style={{ color: ACCENT }}>
+            Weekly Research
+          </span>
         </div>
       </header>
 
