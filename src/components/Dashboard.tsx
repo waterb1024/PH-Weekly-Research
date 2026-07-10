@@ -420,17 +420,18 @@ function Section({
   );
 }
 
+// Base Gallery palette (600 shades for readable colored text on soft tint bg)
 const THEME_PALETTE = [
-  "#059669",
-  "#0891b2",
-  "#7c3aed",
-  "#db2777",
-  "#ea580c",
-  "#0284c7",
-  "#65a30d",
-  "#a16207",
-  "#4f46e5",
-  "#be123c",
+  "#0E8345", // Green
+  "#266EF1", // Blue
+  "#944DE7", // Purple
+  "#CA26A5", // Magenta
+  "#C54600", // Orange
+  "#007F8C", // Teal
+  "#4F7F06", // Lime
+  "#A95F03", // Amber
+  "#B97502", // Yellow
+  "#DE1135", // Red
 ];
 
 function hexToRgb(hex: string): [number, number, number] {
