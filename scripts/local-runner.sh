@@ -49,16 +49,26 @@ if ! command -v claude >/dev/null 2>&1; then
   exit 1
 fi
 
-TMPDIR_L="$(mktemp -d)"
-trap 'rm -rf "$TMPDIR_L"' EXIT
+LOG_DIR="$HOME/Library/Logs/prism"
+mkdir -p "$LOG_DIR"
 
-RESPONSE_FILE="$TMPDIR_L/response.txt"
-REPORT_FILE="$TMPDIR_L/report.json"
+RESPONSE_FILE="$LOG_DIR/$SOURCE.response.txt"
+REPORT_FILE="$LOG_DIR/$SOURCE.report.json"
 
-echo "[$(date '+%F %T')] $SOURCE: running claude..."
-claude -p --dangerously-skip-permissions "$(cat "$PROMPT_FILE")" > "$RESPONSE_FILE"
+# The md files begin with a meta preamble (rendered as documentation).
+# The actual prompt lives after the `## 프롬프트` heading. Pass only that
+# section to `claude -p` so the model doesn't get confused by the preamble.
+PROMPT_TEXT="$(awk '/^## 프롬프트$/{flag=1;next} flag' "$PROMPT_FILE")"
+if [ -z "${PROMPT_TEXT// /}" ]; then
+  echo "prompt section (## 프롬프트) missing or empty in $PROMPT_FILE" >&2
+  exit 1
+fi
+
+echo "[$(date '+%F %T')] $SOURCE: running claude (prompt $(wc -c <<<"$PROMPT_TEXT") bytes)..."
+claude -p --dangerously-skip-permissions "$PROMPT_TEXT" </dev/null > "$RESPONSE_FILE"
 echo "[$(date '+%F %T')] $SOURCE: response bytes: $(wc -c < "$RESPONSE_FILE")"
 
+# Response file kept at $RESPONSE_FILE for debugging.
 python3 - "$RESPONSE_FILE" "$SOURCE" "$REPORT_FILE" <<'PYEOF'
 import json, re, sys, pathlib
 

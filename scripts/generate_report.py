@@ -35,9 +35,19 @@ INGEST_URL = "https://notepad-dvf7.onrender.com/api/reports/ingest"
 
 
 def load_prompt(source: str) -> str:
+    """Read the source-specific md file and return only the prompt section.
+
+    The md files start with a meta preamble (rendered as documentation). The
+    actual prompt lives after the `## 프롬프트` heading — that's the piece we
+    pass to the model.
+    """
     fname = PROMPT_FILE_BY_SOURCE[source]
     path = Path(__file__).parent / "prompts" / fname
-    return path.read_text(encoding="utf-8")
+    lines = path.read_text(encoding="utf-8").splitlines()
+    for i, line in enumerate(lines):
+        if line.strip() == "## 프롬프트":
+            return "\n".join(lines[i + 1 :]).strip()
+    raise ValueError(f"'## 프롬프트' heading missing in {fname}")
 
 
 def extract_json(text: str) -> dict:
