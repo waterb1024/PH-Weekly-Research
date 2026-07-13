@@ -1,9 +1,10 @@
-export type ReportSource = "product_hunt" | "indie_hackers" | "hacker_news";
+export type ReportSource = "product_hunt" | "indie_hackers" | "hacker_news" | "reddit";
 
 export const REPORT_SOURCES: ReadonlyArray<ReportSource> = [
   "product_hunt",
   "indie_hackers",
   "hacker_news",
+  "reddit",
 ];
 
 export function isReportSource(v: unknown): v is ReportSource {
@@ -14,12 +15,14 @@ export const SOURCE_LABEL: Record<ReportSource, string> = {
   product_hunt: "Product Hunt",
   indie_hackers: "Indie Hackers",
   hacker_news: "Hacker News",
+  reddit: "Reddit",
 };
 
 export const SOURCE_SHORT: Record<ReportSource, string> = {
   product_hunt: "PH",
   indie_hackers: "IH",
   hacker_news: "HN",
+  reddit: "RD",
 };
 
 export type ThemeService = {

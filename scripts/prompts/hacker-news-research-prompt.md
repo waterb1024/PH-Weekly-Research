@@ -21,6 +21,16 @@
 6. Top 5 아이디어: 각 아이디어에 **HN 댓글에서 얻은 실제 시그널** 을 근거로 포함. rank, title, difficultyStars, opportunityScore, ridingTrend, koreaGap, description, relatedServices.
 7. fastestValidation: Show HN 으로 1주 내 검증 가능 항목.
 
+**문체 규칙 (엄격 — 모든 소스 통일)**
+- 명사구·간결 종결. Essay·서술체 금지.
+- collectionSummary: 3문장 이내, 총 120자. 예: "지난 30일 Show HN 상위 X개를 Y개 테마로 분류. Z 요청 반복. 한국 관점 미개척 5개 순위화."
+- 각 테마 narrative: 1~2문장, 총 60자. HN 댓글 반응 패턴 요약.
+- ridingTrend: 1문장 60자 이내. 트렌드명 + 참고 서비스 괄호.
+- koreaGap: 1문장 80자 이내. "…이 부재" 종결.
+- description: 2~3문장 총 120자. 순서: "무엇을 만드는지 → HN 근거 시그널 → MVP 가능성".
+- 형용사·부사 최소화. "매우/굉장히/지속적으로/폭발적으로" 금지.
+- "…합니다" 지양, "…다." 또는 명사구 우선.
+
 **출력 JSON 스키마** (Bash 로 `report.json` 저장):
 ```
 {

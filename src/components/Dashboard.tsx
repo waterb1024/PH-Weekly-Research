@@ -3,18 +3,8 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import {
-  CartesianGrid,
-  Line,
-  LineChart,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from "recharts";
-import {
   REPORT_SOURCES,
   SOURCE_LABEL,
-  SOURCE_SHORT,
   type ReportSource,
   type WeeklyReportSummary,
 } from "@/lib/types";
@@ -24,9 +14,10 @@ type SourceFilter = ReportSource | "all";
 
 const SOURCE_TAB_LABEL: Record<SourceFilter, string> = {
   all: "전체",
-  product_hunt: SOURCE_SHORT.product_hunt,
-  indie_hackers: SOURCE_SHORT.indie_hackers,
-  hacker_news: SOURCE_SHORT.hacker_news,
+  product_hunt: SOURCE_LABEL.product_hunt,
+  indie_hackers: SOURCE_LABEL.indie_hackers,
+  hacker_news: SOURCE_LABEL.hacker_news,
+  reddit: SOURCE_LABEL.reddit,
 };
 
 const SOURCE_TAB_FULL: Record<SourceFilter, string> = {
@@ -34,12 +25,14 @@ const SOURCE_TAB_FULL: Record<SourceFilter, string> = {
   product_hunt: SOURCE_LABEL.product_hunt,
   indie_hackers: SOURCE_LABEL.indie_hackers,
   hacker_news: SOURCE_LABEL.hacker_news,
+  reddit: SOURCE_LABEL.reddit,
 };
 
 const SOURCE_ACCENT: Record<ReportSource, { fg: string; bg: string }> = {
   product_hunt: { fg: "#C54600", bg: "#FFF0E9" }, // Orange 600 / 50
   indie_hackers: { fg: "#266EF1", bg: "#EFF4FE" }, // Blue 600 / 50
   hacker_news: { fg: "#A95F03", bg: "#FFF1E1" }, // Amber 600 / 50
+  reddit: { fg: "#DE1135", bg: "#FFF0EE" }, // Red 600 / 50
 };
 
 const ACCENT = "#266EF1"; // Base Gallery Blue 600
@@ -91,6 +84,7 @@ export default function Dashboard() {
       product_hunt: 0,
       indie_hackers: 0,
       hacker_news: 0,
+      reddit: 0,
     };
     if (!reports) return counts;
     counts.all = reports.length;
@@ -133,14 +127,6 @@ export default function Dashboard() {
           .filter((t) => !previous || !previous.themeNames.includes(t))
       : [];
 
-    const trend = [...reports]
-      .sort((a, b) => a.report_date.localeCompare(b.report_date))
-      .map((r) => ({
-        date: r.report_date.slice(5),
-        서비스: r.serviceCount,
-        테마: r.themeCount,
-      }));
-
     return {
       latest,
       previous,
@@ -150,7 +136,6 @@ export default function Dashboard() {
       commonalities,
       segments,
       risingThemes,
-      trend,
       total: reports.length,
       totalServices: reports.reduce((sum, r) => sum + r.serviceCount, 0),
     };
@@ -254,67 +239,6 @@ export default function Dashboard() {
           </section>
         )}
 
-        <Section title="주간 추이" caption="서비스·테마 수의 시간 흐름">
-          <div className="card">
-            {aggregate.trend.length >= 2 ? (
-              <ResponsiveContainer width="100%" height={240}>
-                <LineChart
-                  data={aggregate.trend}
-                  margin={{ top: 8, right: 24, left: -16, bottom: 0 }}
-                >
-                  <CartesianGrid strokeDasharray="3 3" stroke={LINE} />
-                  <XAxis
-                    dataKey="date"
-                    tick={{ fontSize: 13, fill: INK }}
-                    stroke={LINE}
-                  />
-                  <YAxis
-                    yAxisId="services"
-                    tick={{ fontSize: 13, fill: INK }}
-                    stroke={LINE}
-                    allowDecimals={false}
-                  />
-                  <YAxis
-                    yAxisId="themes"
-                    orientation="right"
-                    tick={{ fontSize: 13, fill: INK }}
-                    stroke={LINE}
-                    allowDecimals={false}
-                  />
-                  <Tooltip
-                    contentStyle={{
-                      fontSize: 13,
-                      borderRadius: 10,
-                      border: "none",
-                      boxShadow:
-                        "0 10px 30px -8px rgba(15,23,42,0.16), 0 4px 12px -2px rgba(15,23,42,0.08)",
-                    }}
-                  />
-                  <Line
-                    yAxisId="services"
-                    type="monotone"
-                    dataKey="서비스"
-                    stroke={ACCENT}
-                    strokeWidth={2}
-                    dot={{ r: 3, fill: ACCENT }}
-                  />
-                  <Line
-                    yAxisId="themes"
-                    type="monotone"
-                    dataKey="테마"
-                    stroke={INK}
-                    strokeWidth={1.5}
-                    strokeDasharray="4 4"
-                    dot={{ r: 3, fill: INK }}
-                  />
-                </LineChart>
-              </ResponsiveContainer>
-            ) : (
-              <Empty hint="2주 이상 쌓이면 추이가 나타납니다." />
-            )}
-          </div>
-        </Section>
-
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <Section title="반복 테마" caption="자주 등장한 테마">
             <div className="card">
@@ -372,7 +296,7 @@ function SourceBadge({ source }: { source: ReportSource }) {
   const tone = SOURCE_ACCENT[source];
   return (
     <span
-      className="inline-flex items-center rounded-full px-2 py-0.5 text-[11px] font-semibold"
+      className="inline-flex items-center rounded-full px-3 py-[5px] text-xs font-semibold leading-[1.2] whitespace-nowrap"
       style={{ background: tone.bg, color: tone.fg }}
     >
       {SOURCE_LABEL[source]}
@@ -666,12 +590,7 @@ function ReportCardLink({ r }: { r: WeeklyReportSummary }) {
   return (
     <Link href={`/report/${r.id}`} className="card card-hover block group">
       <div className="flex items-center justify-between gap-2">
-        <div className="flex items-center gap-2 min-w-0">
-          <SourceBadge source={r.source} />
-          <div className="text-xs font-semibold tabular-nums" style={{ color: ACCENT }}>
-            {r.report_date}
-          </div>
-        </div>
+        <SourceBadge source={r.source} />
         <div className="text-xs text-neutral-400 shrink-0">{daysAgo(r.created_at)}</div>
       </div>
       <p className="text-sm text-neutral-800 mt-3 leading-relaxed line-clamp-3 min-h-[3.75rem]">
@@ -679,13 +598,15 @@ function ReportCardLink({ r }: { r: WeeklyReportSummary }) {
       </p>
       {r.topOpportunityTitle && (
         <div
-          className="mt-4 -mx-6 px-6 py-3 rounded-lg"
-          style={{ background: "var(--bg-alt)" }}
+          className="mt-4 rounded-lg p-4"
+          style={{ background: "#f8fafc" }}
         >
-          <div className="text-xs text-neutral-500">Top Pick</div>
-          <div className="text-sm font-semibold text-neutral-900 mt-1 leading-snug">
-            {r.topOpportunityTitle}
+          <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">
+            Top Pick
           </div>
+          <p className="text-sm text-neutral-800 mt-2 leading-relaxed">
+            {r.topOpportunityTitle}
+          </p>
         </div>
       )}
       <div className="mt-4 flex items-center justify-between text-xs text-neutral-500">

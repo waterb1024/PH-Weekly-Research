@@ -21,6 +21,16 @@
 6. Top 5 아이디어: 3~6개월 MVP 로 월 $1K~$10K MRR 도달 가능 수준. rank, title, difficultyStars, opportunityScore, ridingTrend, koreaGap, description, relatedServices.
 7. fastestValidation: 랜딩 페이지 + waitlist 로 1주 내 검증 가능 항목.
 
+**문체 규칙 (엄격 — 모든 소스 통일)**
+- 명사구·간결 종결. Essay·서술체 금지.
+- collectionSummary: 3문장 이내, 총 120자. 예: "지난 30일 IH 상위 X개 프로덕트를 Y개 테마로 분류. Z MRR 흐름 지배적. 한국 관점 미개척 5개 순위화."
+- 각 테마 narrative: 1~2문장, 총 60자.
+- ridingTrend: 1문장 60자 이내. 트렌드명 + 참고 서비스 괄호. 예: "매출 공개형 인디 SaaS (Kleo/Postiz/Zigpoll)"
+- koreaGap: 1문장 80자 이내. "…이 부재" 종결.
+- description: 2~3문장 총 120자. 순서: "무엇을 만드는지 → 스택/모델 힌트 → MVP 검증 가능성". 예: "…를 …로 자동 변환. 순수 LLM + API, 구독 모델. 주말 안에 MVP."
+- 형용사·부사 최소화. "매우/굉장히/지속적으로/폭발적으로" 금지.
+- "…합니다" 지양, "…다." 또는 명사구 우선.
+
 **출력 JSON 스키마** (Bash 로 `report.json` 저장):
 ```
 {

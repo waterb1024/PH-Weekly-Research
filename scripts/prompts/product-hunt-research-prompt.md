@@ -21,6 +21,16 @@ Claude Code 원격 에이전트가 매주 실행. `ResearchData` 스키마 + `so
 6. Top 5 아이디어: 1인 개발자 3~6개월 MVP 가능 수준. rank, title, difficultyStars(1~5), opportunityScore(1~10), ridingTrend, koreaGap, description, relatedServices.
 7. fastestValidation: Top 5 중 가장 빠른 검증 항목.
 
+**문체 규칙 (엄격 — 모든 소스 통일)**
+- 명사구·간결 종결. Essay·서술체 금지.
+- collectionSummary: 3문장 이내, 총 120자. 예: "지난 30일 X개 서비스를 Y개 테마로 분류. Z 흐름 지배적. 한국 관점 미개척 5개 순위화."
+- 각 테마 narrative: 1~2문장, 총 60자. 예: "…한 배관들. …·…·… 등을 담당."
+- ridingTrend: 1문장 60자 이내. 트렌드명 + 참고 서비스 괄호. 예: "'하나를 여러 개로' 콘텐츠 리퍼포징 (X/Y/Z)"
+- koreaGap: 1문장 80자 이내. "…이 부재" 종결.
+- description: 2~3문장 총 120자. 순서: "무엇을 만드는지 → 스택/모델 힌트 → MVP 검증 가능성". 예: "…를 …로 자동 변환. 순수 LLM + API, 구독 모델. 주말 안에 MVP."
+- 형용사·부사 최소화. "매우/굉장히/지속적으로/폭발적으로" 금지.
+- "…합니다" 지양, "…다." 또는 명사구 우선.
+
 **출력 JSON 스키마** (Bash 로 `report.json` 저장):
 ```
 {

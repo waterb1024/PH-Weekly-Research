@@ -28,6 +28,7 @@ const SOURCE_ACCENT: Record<ReportSource, { fg: string; bg: string }> = {
   product_hunt: { fg: "#C54600", bg: "#FFF0E9" },
   indie_hackers: { fg: "#266EF1", bg: "#EFF4FE" },
   hacker_news: { fg: "#A95F03", bg: "#FFF1E1" },
+  reddit: { fg: "#DE1135", bg: "#FFF0EE" },
 };
 
 type Props = { id: number };
@@ -323,7 +324,7 @@ export default function ReportDetail({ id }: Props) {
         <div>
           <div className="flex items-center gap-2 flex-wrap">
             <span
-              className="inline-flex items-center rounded-full px-2 py-0.5 text-[11px] font-semibold"
+              className="inline-flex items-center rounded-full px-3 py-[5px] text-xs font-semibold leading-[1.2] whitespace-nowrap"
               style={{
                 background: SOURCE_ACCENT[report.source].bg,
                 color: SOURCE_ACCENT[report.source].fg,
@@ -339,7 +340,7 @@ export default function ReportDetail({ id }: Props) {
             주간 {SOURCE_LABEL[report.source]} 리서치
           </h1>
           {data.collectionSummary && (
-            <p className="text-base text-neutral-700 mt-5 leading-relaxed max-w-3xl">
+            <p className="text-base text-neutral-700 mt-5 leading-relaxed">
               {data.collectionSummary}
             </p>
           )}
@@ -375,7 +376,7 @@ export default function ReportDetail({ id }: Props) {
               <h2 className="display text-2xl md:text-3xl text-neutral-900 mt-4">
                 {fastest.rank}위 · {fastest.title}
               </h2>
-              <p className="mt-4 text-base text-neutral-700 leading-relaxed max-w-3xl">
+              <p className="mt-4 text-base text-neutral-700 leading-relaxed">
                 {data.fastestValidation.rationale}
               </p>
               <div className="mt-6 flex items-center gap-5 md:gap-8 flex-wrap text-sm">
