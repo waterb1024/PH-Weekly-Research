@@ -1,4 +1,8 @@
-name: Weekly Research
+name: Weekly Research (manual/backup)
+
+# Automatic weekly scheduling runs on the user's Mac via launchd
+# (scripts/local-runner.sh). This workflow is kept as a manual/backup path —
+# add ANTHROPIC_API_KEY secret to enable, then Run workflow → pick source.
 
 on:
   workflow_dispatch:
@@ -13,36 +17,11 @@ on:
           - indie_hackers
           - hacker_news
           - reddit
-  schedule:
-    # KST 09:00 = UTC 00:00 previous day
-    - cron: "0 0 * * MON"  # Product Hunt
-    - cron: "0 0 * * TUE"  # Indie Hackers
-    - cron: "0 0 * * WED"  # Hacker News
-    - cron: "0 0 * * THU"  # Reddit
 
 jobs:
   research:
     runs-on: ubuntu-latest
     steps:
-      - name: Determine source from cron
-        id: pick
-        env:
-          EVENT_NAME: ${{ github.event_name }}
-          CRON: ${{ github.event.schedule }}
-          INPUT_SOURCE: ${{ github.event.inputs.source }}
-        run: |
-          if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
-            echo "source=$INPUT_SOURCE" >> "$GITHUB_OUTPUT"
-          else
-            case "$CRON" in
-              "0 0 * * MON") echo "source=product_hunt"  >> "$GITHUB_OUTPUT" ;;
-              "0 0 * * TUE") echo "source=indie_hackers" >> "$GITHUB_OUTPUT" ;;
-              "0 0 * * WED") echo "source=hacker_news"   >> "$GITHUB_OUTPUT" ;;
-              "0 0 * * THU") echo "source=reddit"        >> "$GITHUB_OUTPUT" ;;
-              *) echo "unknown cron: $CRON" >&2; exit 1 ;;
-            esac
-          fi
-
       - uses: actions/checkout@v4
 
       - uses: actions/setup-python@v5
@@ -58,4 +37,4 @@ jobs:
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           INGEST_API_KEY: ${{ secrets.INGEST_API_KEY }}
-        run: python scripts/generate_report.py ${{ steps.pick.outputs.source }}
+        run: python scripts/generate_report.py ${{ github.event.inputs.source }}
