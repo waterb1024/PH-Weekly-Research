@@ -5,7 +5,7 @@ services:
     plan: free
     region: singapore
     buildCommand: npm ci --include=dev && npm run build
-    startCommand: npm run db:migrate:prod && npm start
+    startCommand: npm start
     autoDeploy: true
     envVars:
       - key: NODE_VERSION
